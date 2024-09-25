@@ -12,6 +12,7 @@
   "author": "carlosdaniel",
   "license": "ISC",
   "dependencies": {
+    "db-local": "3.1.0",
     "express": "4.21.0"
   },
   "devDependencies": {
@@ -25,8 +26,16 @@
         "error",
         "double"
       ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
       "semi": [
         "error",
+        "always"
+      ],
+      "space-before-function-paren": [
+        "warning",
         "always"
       ]
     }
