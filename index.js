@@ -1,6 +1,7 @@
 import express from "express";
 import { PORT } from "./config.js";
 import UserRepository from "./user-repository.js";
+import { getErrorFormatted } from "./errors.js";
 
 const app = express();
 app.use(express.json());
@@ -23,8 +24,11 @@ app.post("/register", (req, res) => {
     const id = UserRepository.create({ username, password });
     res.send({ id });
   } catch (error) {
-    //TODO handle the error
-    res.status(400).send({ error: error.message });
+    const errorFormatted = getErrorFormatted(error);
+
+    res
+      .status(errorFormatted.statusCode)
+      .send({ error: errorFormatted.message });
   }
 });
 

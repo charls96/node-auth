@@ -1,6 +1,7 @@
 import DBLocal from "db-local";
 const { Schema } = new DBLocal({ path: "./db" });
 import { randomUUID } from "crypto";
+import { ValidationError } from "./errors.js";
 
 const User = Schema("User", {
   _id: { type: String, required: true },
@@ -10,19 +11,19 @@ const User = Schema("User", {
 
 const validatePassword = (password) => {
   if (typeof password !== "string")
-    throw new Error("password must be a string");
+    throw new ValidationError("password must be a string");
   if (password.length < 6)
-    throw new Error("password must be at least 6 characters long");
+    throw new ValidationError("password must be at least 6 characters long");
 };
 
 const validateUsername = (username) => {
   if (typeof username !== "string")
-    throw new Error("username must be a string");
+    ç("username must be a string");
   if (username.length < 3)
-    throw new Error("username must be at least 6 characters long");
+    throw new ValidationError("username must be at least 6 characters long");
 
   const user = User.findOne({ username });
-  if (user) throw new Error("username already exists");
+  if (user) throw new ValidationError("username already exists");
 };
 
 //Optionally you can use Zod for validating the data
