@@ -6,9 +6,11 @@ import { getErrorFormatted } from "./errors.js";
 const app = express();
 app.use(express.json());
 
+app.set("view engine", "ejs");
+
 // ### REGION: GET
 app.get("/", (req, res) => {
-  res.send("<h1>Hello World</h1>");
+  res.render("index");
 });
 
 app.get("/protected", (req, res) => {});
