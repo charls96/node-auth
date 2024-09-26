@@ -1,4 +1,4 @@
-const VALID_ERROR_CLASS_NAMES_FRONT_END = ["ValidationError"];
+const VALID_ERROR_CLASS_NAMES_FRONT_END = ["LoginError", "ValidationError"];
 
 // ### REGION: Getters
 export const getErrorFormatted = (error) => {
@@ -23,5 +23,6 @@ const createErrorClass = function (name, code) {
 };
 // ### END REGION
 
-export const ValidationError = createErrorClass("ValidationError", 400);
+export const LoginError = createErrorClass("LoginError", 401);
 export const InternalError = createErrorClass("InternalError", 500);
+export const ValidationError = createErrorClass("ValidationError", 400);

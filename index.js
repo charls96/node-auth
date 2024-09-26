@@ -15,7 +15,20 @@ app.get("/protected", (req, res) => {});
 // ### END REGION
 
 // ### REGION: POST
-app.post("/login", (req, res) => {});
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await UserRepository.login({ username, password });
+    res.send({ user });
+  } catch (error) {
+    const errorFormatted = getErrorFormatted(error);
+
+    res
+      .status(errorFormatted.statusCode)
+      .send({ error: errorFormatted.message });
+  }
+});
 
 app.post("/register", async (req, res) => {
   try {
