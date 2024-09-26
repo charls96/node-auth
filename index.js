@@ -17,11 +17,11 @@ app.get("/protected", (req, res) => {});
 // ### REGION: POST
 app.post("/login", (req, res) => {});
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const id = UserRepository.create({ username, password });
+    const id = await UserRepository.create({ username, password });
     res.send({ id });
   } catch (error) {
     const errorFormatted = getErrorFormatted(error);

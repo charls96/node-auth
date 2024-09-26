@@ -2,6 +2,8 @@ import DBLocal from "db-local";
 const { Schema } = new DBLocal({ path: "./db" });
 import { randomUUID } from "crypto";
 import { ValidationError } from "./errors.js";
+import bcrypt from "bcrypt";
+import { SALT_ROUNDS } from "./config.js";
 
 const User = Schema("User", {
   _id: { type: String, required: true },
@@ -17,8 +19,7 @@ const validatePassword = (password) => {
 };
 
 const validateUsername = (username) => {
-  if (typeof username !== "string")
-    ç("username must be a string");
+  if (typeof username !== "string") ç("username must be a string");
   if (username.length < 3)
     throw new ValidationError("username must be at least 6 characters long");
 
@@ -28,18 +29,22 @@ const validateUsername = (username) => {
 
 //Optionally you can use Zod for validating the data
 export default class UserRepository {
-  static create({ username, password }) {
+  static async create({ username, password }) {
     validatePassword(password);
     validateUsername(username);
 
     const id = randomUUID(); // Depending on the db using this is not a good idea because it makes it slower
 
-    User.create({ _id: id, username, password }).save();
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+    User.create({
+      _id: id,
+      username,
+      password: hashedPassword,
+    }).save();
 
     return id;
   }
 
   static login({ username, password }) {}
 }
-
-//TODO create an error class to give more context to the errors
