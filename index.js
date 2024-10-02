@@ -60,6 +60,15 @@ app.post("/login", async (req, res) => {
       }
     );
 
+    //TODO refresh token
+    const refreshToken = jwt.sign(
+      { id: user._id, username: user.username },
+      SECRET_JWT_KEY,
+      {
+        expiresIn: "7d",
+      }
+    )
+
     res
       .cookie("access_token", token, {
         httpOnly: true, //Makes the cookie accessible only by the web server
